@@ -2,23 +2,20 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 import {dropStyle} from './style'
-const DropBox = ({ url, backgroundview, id }) => {
-  const [{isOver ,canDrop}, drop] = useDrop({
+const DropBox = ({ url, id , aid }) => {
+  const [, drop] = useDrop({
     accept: ItemTypes.BOX,
-    drop: () => ({ id: `${id}` }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
+    drop: () => ({ id: id, aid: aid }),
   });
   return (
     <div
       id={id}
+      aid={aid}
       ref={drop}
       style={{
         ...dropStyle,
         backgroundImage: `url(${url})`,
-        backgroundSize: `${backgroundview}`,
+        backgroundSize: "cover",
       }}
     ></div>
   );
