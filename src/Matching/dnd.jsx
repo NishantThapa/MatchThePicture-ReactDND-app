@@ -4,8 +4,8 @@ import { ArcherContainer, ArcherElement } from "react-archer";
 import Items from "./itemsObject";
 import ItemsBox from "./items";
 import DropBox from "./drop";
-import RightIcon from './icons/right.png'
-import WrongIcon from './icons/wrong.png'
+import RightIcon from "./icons/right.png";
+import WrongIcon from "./icons/wrong.png";
 
 import {
   FlexBox,
@@ -16,7 +16,7 @@ import {
   Heading,
   ImageContainer,
   ImageStyle,
-  dnd
+  dnd,
 } from "./style";
 let _ = require("lodash");
 
@@ -31,67 +31,74 @@ const Container = () => {
   const [checkAnswer, setcheckAnswer] = useState(false);
   const [items, setitems] = useState(Items);
   const [ansitems, setansitems] = useState(Items);
- 
+  const [ans, setans] = useState(true)
 
   const CheckAnswer = () => {
     setcheckAnswer(true);
+    setans(false)
+    setTimeout(() => {
+    setans(true)
+    },100);
   };
   const Shuffle = () => {
     setitems(_.shuffle(items));
-    setansitems(_.shuffle(items))
+    setansitems(_.shuffle(items));
     setcheckAnswer(false);
     localStorage.clear();
+    setans(true)
   };
-  
+
   return (
     <div style={MainContainer}>
       <div style={Heading}>MATCHING</div>
       <div style={dnd}>Drag & Drop</div>
-      <ArcherContainer strokeColor="black" strokeWidth="1" arrowLength="6">
+      <ArcherContainer strokeColor="black" strokeWidth="2" arrowLength="6">
         <div style={ContainerBox}>
-           {/* ---------------------------------StartIconBox------------------------------------------- */}
-        <div style={ImageContainer}>
-            {items.map((res,i)=>{
-              let user = JSON.parse(localStorage.getItem(i))
-              let question = user && user.Storage[0].question.qid
-              let answer = user && user.Storage[1].answer.aid
-              return(
-              <div key={i}>
-              {
-                <img
-                  src={
-                    (question === answer && question != null)
-                      ? `${RightIcon}`
-                      : `${WrongIcon}`
+          {/* ---------------------------------StartIconBox------------------------------------------- */}
+          <div style={ImageContainer}>
+            {items.map((res, i) => {
+              let user = JSON.parse(localStorage.getItem(i));
+              let question = user && user.Storage[0].question.qid;
+              let answer = user && user.Storage[1].answer.aid;
+              return (
+                <div key={i}>
+                  {
+                    <img
+                      src={
+                        question === answer && question != null
+                          ? `${RightIcon}`
+                          : `${WrongIcon}`
+                      }
+                      style={checkAnswer ? ImageStyle : { display: "none" }}
+                      alt="Correct"
+                    />
                   }
-                  style={checkAnswer ? ImageStyle : { display: "none" }}
-                  alt="Correct"
-                />
-              }
-            </div>
-            )})}
+                </div>
+              );
+            })}
           </div>
           {/* ---------------------------------EndIconBox--------------------------------------------- */}
+
           {/* ---------------------------------StartQuestionBox------------------------------------------- */}
           <div style={FlexBox}>
             {items.map((res, i) => {
-          let user = JSON.parse(localStorage.getItem(i))
-          let answer = user && user.Storage[1].answer.id
-           return ( 
-              <ArcherElement
-                key={i}
-                id={i}
-                relations={[
-                  {
-                    targetId:     `${answer + 'ans'}`,
-                    targetAnchor: `${localStorage.getItem(i) ? "left" : ''}`,
-                    sourceAnchor: `${localStorage.getItem(i) ? "left" : ''}`,
-                  },
-                ]}
-              >
-                <ItemsBox url={res.url} id={i} idref={ref} qid={res.id} />
-              </ArcherElement>
-            )
+              let user = JSON.parse(localStorage.getItem(i));
+              let answer = user && user.Storage[1].answer.id;
+              return (
+                <ArcherElement
+                  key={i}
+                  id={i}
+                  relations={[
+                    {
+                      targetId: `${answer + "ans"}`,
+                      targetAnchor: `${localStorage.getItem(i) && ans ? "left" : ""}`,
+                      sourceAnchor: `${localStorage.getItem(i) && ans ? "left" : ""}`,
+                    },
+                  ]}
+                >
+                  <ItemsBox url={res.url} id={i} idref={ref} qid={res.id} />
+                </ArcherElement>
+              );
             })}
           </div>
 
@@ -108,7 +115,6 @@ const Container = () => {
           </div>
 
           {/* ---------------------------------EndAnswerBox------------------------------------------- */}
-       
         </div>
       </ArcherContainer>
 
@@ -126,5 +132,3 @@ const Container = () => {
   );
 };
 export default Container;
-
-

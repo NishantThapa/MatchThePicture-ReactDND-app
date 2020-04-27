@@ -19,8 +19,8 @@ export default [
     {
         url:"https://cdn.pixabay.com/photo/2016/01/22/21/10/dollar-1156662_960_720.png",
         id:"e"
-    }
-    
+    },
+   
 ] 
 
 //can add answer object with same Question to match the answer onSubmit

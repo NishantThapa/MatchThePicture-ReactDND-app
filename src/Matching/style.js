@@ -6,8 +6,8 @@ export const dropStyle = {
   marginBottom: "1.5rem",
   cursor: "move",
   float: "left",
-  height: "1rem",
-  width: "1rem",
+  height: "1.5rem",
+  width: "1.5rem",
   backgroundSize: "cover",
   backgroundPosition: "center center",
 };
@@ -19,8 +19,8 @@ export const itemStyle = {
   marginBottom: "1.5rem",
   cursor: "move",
   float: "left",
-  height: "1rem",
-  width: "1rem",
+  height: "1.5rem",
+  width: "1.5rem",
   backgroundSize: "cover",
   backgroundPosition: "center center",
 };
